@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Daniel Laverde | Desarrollador Fullstack</title>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0a0a0a;
+      --surface: #111111;
+      --card: #161616;
+      --border: #222222;
+      --accent: #7fffb2;
+      --accent2: #a78bfa;
+      --text: #f0f0f0;
+      --muted: #888;
+      --font-display: 'Syne', sans-serif;
+      --font-body: 'Inter', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.2rem 2.5rem;
+      background: rgba(10,10,10,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: var(--font-display);
+      font-weight: 800;
+      font-size: 1.1rem;
+      letter-spacing: -0.02em;
+      color: var(--accent);
+    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      text-decoration: none;
+      color: var(--muted);
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding: 8rem 2.5rem 4rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -200px; right: -200px;
+      width: 600px; height: 600px;
+      background: radial-gradient(circle, rgba(127,255,178,0.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -100px; left: -100px;
+      width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(167,139,250,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .hero-content { max-width: 800px; }
+    .hero-tag {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      border: 1px solid rgba(127,255,178,0.3);
+      border-radius: 2rem;
+      padding: 0.3rem 1rem;
+      margin-bottom: 2rem;
+    }
+    .hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 8vw, 6rem);
+      font-weight: 800;
+      line-height: 1.0;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.5rem;
+    }
+    .hero h1 span { color: var(--accent); }
+    .hero-desc {
+      font-size: 1.1rem;
+      color: var(--muted);
+      max-width: 560px;
+      line-height: 1.75;
+      margin-bottom: 2.5rem;
+    }
+    .hero-cta {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.8rem 1.8rem;
+      border-radius: 0.375rem;
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      font-weight: 500;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: none;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #0a0a0a;
+    }
+    .btn-primary:hover { background: #5ef09c; transform: translateY(-2px); }
+    .btn-outline {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-outline:hover { border-color: var(--muted); background: var(--surface); }
+
+    /* SECTIONS */
+    section { padding: 6rem 2.5rem; }
+    .section-label {
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.75rem;
+    }
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      margin-bottom: 3rem;
+      line-height: 1.1;
+    }
+    .container { max-width: 1000px; margin: 0 auto; }
+    .divider {
+      height: 1px;
+      background: var(--border);
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    /* ABOUT */
+    #sobre-mi { background: var(--surface); }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+    .about-text { font-size: 1rem; color: var(--muted); line-height: 1.85; }
+    .about-text p + p { margin-top: 1rem; }
+    .skills-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-top: 1.5rem;
+    }
+    .skill-tag {
+      font-size: 0.8rem;
+      font-weight: 500;
+      color: var(--accent2);
+      background: rgba(167,139,250,0.1);
+      border: 1px solid rgba(167,139,250,0.2);
+      border-radius: 0.25rem;
+      padding: 0.3rem 0.75rem;
+    }
+    .about-right {}
+    .stat-row {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+    .stat-item {
+      padding: 1.5rem;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 0.5rem;
+    }
+    .stat-num {
+      font-family: var(--font-display);
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: var(--accent);
+      line-height: 1;
+    }
+    .stat-desc {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-top: 0.25rem;
+    }
+
+    /* PROJECTS */
+    #proyectos {}
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+      gap: 1.5rem;
+    }
+    .project-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 0.75rem;
+      padding: 2rem;
+      transition: border-color 0.25s, transform 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+    .project-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2));
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .project-card:hover { border-color: #333; transform: translateY(-4px); }
+    .project-card:hover::before { opacity: 1; }
+    .project-period {
+      font-size: 0.75rem;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+      margin-bottom: 0.75rem;
+    }
+    .project-title {
+      font-family: var(--font-display);
+      font-size: 1.4rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 1rem;
+      color: var(--text);
+    }
+    .project-desc {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.75;
+      margin-bottom: 1.5rem;
+    }
+    .project-desc strong {
+      color: var(--text);
+      font-weight: 500;
+    }
+    .project-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .project-tag {
+      font-size: 0.75rem;
+      color: var(--muted);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 0.25rem;
+      padding: 0.2rem 0.6rem;
+    }
+    .project-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--accent);
+      text-decoration: none;
+      transition: gap 0.2s;
+    }
+    .project-link:hover { gap: 0.7rem; }
+    .project-link-placeholder {
+      font-size: 0.85rem;
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    /* CONTACT */
+    #contacto { background: var(--surface); }
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+    .contact-intro {
+      font-size: 1rem;
+      color: var(--muted);
+      line-height: 1.85;
+      margin-bottom: 2rem;
+    }
+    .contact-items { display: flex; flex-direction: column; gap: 1rem; }
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 1.25rem;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 0.5rem;
+      text-decoration: none;
+      color: var(--text);
+      transition: border-color 0.2s;
+    }
+    .contact-item:hover { border-color: var(--muted); }
+    .contact-icon {
+      width: 36px; height: 36px;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(127,255,178,0.1);
+      border-radius: 0.375rem;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+    .contact-label { font-size: 0.75rem; color: var(--muted); }
+    .contact-value { font-size: 0.9rem; font-weight: 500; }
+
+    /* FOOTER */
+    footer {
+      text-align: center;
+      padding: 2rem;
+      font-size: 0.8rem;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { gap: 1rem; }
+      section { padding: 4rem 1.5rem; }
+      .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .projects-grid { grid-template-columns: 1fr; }
+      .hero { padding: 7rem 1.5rem 3rem; }
+    }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .hero-tag  { animation: fadeUp 0.6s ease both; animation-delay: 0.1s; }
+    .hero h1   { animation: fadeUp 0.6s ease both; animation-delay: 0.2s; }
+    .hero-desc { animation: fadeUp 0.6s ease both; animation-delay: 0.35s; }
+    .hero-cta  { animation: fadeUp 0.6s ease both; animation-delay: 0.5s; }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="nav-logo">DL</div>
+    <ul class="nav-links">
+      <li><a href="#sobre-mi">Sobre mí</a></li>
+      <li><a href="#proyectos">Proyectos</a></li>
+      <li><a href="#contacto">Contacto</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-tag">Disponible para oportunidades</div>
+      <h1>Daniel<br><span>Laverde</span><br>Herrera</h1>
+      <p class="hero-desc">
+        Desarrollador Fullstack apasionado por construir aplicaciones web funcionales, intuitivas y bien estructuradas — donde el diseño y la lógica se encuentran.
+      </p>
+      <div class="hero-cta">
+        <a href="#proyectos" class="btn btn-primary">Ver proyectos →</a>
+        <a href="#contacto" class="btn btn-outline">Contáctame</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- SOBRE MÍ -->
+  <section id="sobre-mi">
+    <div class="container">
+      <p class="section-label">Perfil</p>
+      <h2 class="section-title">Sobre mí</h2>
+      <div class="about-grid">
+        <div>
+          <div class="about-text">
+            <p>Soy desarrollador web con enfoque en Front-End y Full Stack Development. Trabajo principalmente con JavaScript, React, Node.js, Express y MongoDB, desarrollando proyectos que fortalecen tanto mis habilidades técnicas como mi capacidad para resolver problemas.</p>
+            <p>Me interesa construir experiencias digitales que combinen diseño, rendimiento y una lógica sólida detrás de cada funcionalidad. Disfruto aprender nuevas tecnologías, mejorar continuamente mi código y enfrentar nuevos retos que impulsen mi crecimiento profesional.</p>
+            <p>Actualmente busco oportunidades para colaborar en proyectos reales y aportar valor mediante soluciones tecnológicas eficientes y bien construidas.</p>
+          </div>
+          <div class="skills-list">
+            <span class="skill-tag">JavaScript</span>
+            <span class="skill-tag">React</span>
+            <span class="skill-tag">Node.js</span>
+            <span class="skill-tag">Express</span>
+            <span class="skill-tag">MongoDB</span>
+            <span class="skill-tag">HTML</span>
+            <span class="skill-tag">CSS</span>
+            <span class="skill-tag">Git</span>
+          </div>
+        </div>
+        <div class="stat-row">
+          <div class="stat-item">
+            <div class="stat-num">2+</div>
+            <div class="stat-desc">Proyectos web completados</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-num">FS</div>
+            <div class="stat-desc">Perfil Fullstack — front y back integrados</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-num">∞</div>
+            <div class="stat-desc">Siempre aprendiendo nuevas tecnologías</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- PROYECTOS -->
+  <section id="proyectos">
+    <div class="container">
+      <p class="section-label">Trabajo</p>
+      <h2 class="section-title">Proyectos</h2>
+      <div class="projects-grid">
+
+        <!-- Proyecto 1 -->
+        <div class="project-card">
+          <div class="project-period">Feb 2026 – Abr 2026</div>
+          <div class="project-title">Around the U.S.</div>
+          <div class="project-desc">
+            <strong>Contexto:</strong> Aplicación web interactiva tipo red social donde los usuarios pueden compartir lugares, interactuar con contenido y gestionar su perfil.<br><br>
+            <strong>Análisis:</strong> El proyecto evolucionó desde manipulación básica del DOM hasta una aplicación conectada a un backend con autenticación de usuarios y persistencia de datos, pasando por varias fases de complejidad creciente.<br><br>
+            <strong>Conclusión:</strong> Demuestra dominio progresivo del stack web — desde el frontend puro hasta la integración completa con servicios de backend y gestión de sesiones.
+          </div>
+          <div class="project-tags">
+            <span class="project-tag">JavaScript</span>
+            <span class="project-tag">HTML/CSS</span>
+            <span class="project-tag">DOM</span>
+            <span class="project-tag">API REST</span>
+            <span class="project-tag">Autenticación</span>
+          </div>
+          <a href="https://weirdexcepcion.github.io/web_project_around_es/" target="_blank" class="project-link">
+            Ver proyecto en vivo →
+          </a>
+        </div>
+
+        <!-- Proyecto 2 -->
+        <div class="project-card">
+          <div class="project-period">Nov 2025 – Ene 2026</div>
+          <div class="project-title">Gestor de Gastos</div>
+          <div class="project-desc">
+            <strong>Contexto:</strong> Aplicación web para gestión de finanzas personales: permite fijar un presupuesto, añadir y eliminar gastos por categoría, y visualizar los totales en tiempo real.<br><br>
+            <strong>Análisis:</strong> Se implementó persistencia de datos mediante localStorage, permitiendo que la información del usuario se conserve entre sesiones sin necesidad de backend.<br><br>
+            <strong>Conclusión:</strong> Proyecto funcional que resuelve un problema real con una interfaz simple y clara, poniendo en práctica lógica de estado y manipulación del DOM con JavaScript puro.
+          </div>
+          <div class="project-tags">
+            <span class="project-tag">JavaScript</span>
+            <span class="project-tag">HTML/CSS</span>
+            <span class="project-tag">localStorage</span>
+            <span class="project-tag">DOM</span>
+          </div>
+          <span class="project-link-placeholder">Repositorio próximamente disponible</span>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- CONTACTO -->
+  <section id="contacto">
+    <div class="container">
+      <p class="section-label">Conectemos</p>
+      <h2 class="section-title">Contacto</h2>
+      <div class="contact-grid">
+        <div>
+          <p class="contact-intro">
+            Estoy buscando activamente oportunidades en desarrollo web — ya sea como freelance, prácticas o posición fija. Si tienes un proyecto interesante o quieres hablar, escríbeme.
+          </p>
+          <a href="mailto:danielflh9438@gmail.com" class="btn btn-primary">Enviar un mensaje →</a>
+        </div>
+        <div class="contact-items">
+          <a href="mailto:danielflh9438@gmail.com" class="contact-item">
+            <div class="contact-icon">✉</div>
+            <div>
+              <div class="contact-label">Email</div>
+              <div class="contact-value">danielflh9438@gmail.com</div>
+            </div>
+          </a>
+          <a href="https://github.com/weirdexcepcion" target="_blank" class="contact-item">
+            <div class="contact-icon">⌥</div>
+            <div>
+              <div class="contact-label">GitHub</div>
+              <div class="contact-value">github.com/weirdexcepcion</div>
+            </div>
+          </a>
+          <a href="https://www.linkedin.com/in/daniel-laverde-77b01a3bb/" target="_blank" class="contact-item">
+            <div class="contact-icon">in</div>
+            <div>
+              <div class="contact-label">LinkedIn</div>
+              <div class="contact-value">Daniel Laverde</div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>© 2026 Daniel Fernando Laverde Herrera — Construido con HTML, CSS y JavaScript</p>
+  </footer>
+
+</body>
+</html>
